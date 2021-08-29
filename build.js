@@ -21,7 +21,7 @@ function replaceInFile(file, original, replacement) {
 async function main() {
     if (!process.env.USE_NETLIFY_FORMS) {
         fs.rename(path.resolve(__dirname, "api", "submission-created.js"), path.resolve(__dirname, "api", "submit-appeal.js"), assertSuccess);
-        replaceInFile(path.resolve(__dirname, "public", "form.html"), "action=\"/success\" netlify", "action=\"/api/submit-appeal\"");
+        replaceInFile(path.resolve(__dirname, "public", "form.html"), "action=\"/success.html\" netlify", "action=\"/api/submit-appeal\"");
     }
 
     if (process.env.DISABLE_UNBAN_LINK) {
