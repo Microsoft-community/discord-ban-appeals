@@ -18,7 +18,7 @@ exports.handler = async function (event, context) {
                 client_secret: process.env.DISCORD_CLIENT_SECRET,
                 grant_type: "authorization_code",
                 code: event.queryStringParameters.code,
-                redirect_uri: new URL("/api/oauth-callback", "https://" + process.env.VERCEL_URL);,
+                redirect_uri: new URL("/api/oauth-callback", "https://" + process.env.VERCEL_URL),
                 scope: "identify"
             })
         });
