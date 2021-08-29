@@ -16,7 +16,7 @@ exports.handler = async function (event, context) {
             };
         }
 
-        const params = new URLSearchParams(atob(event.body));
+        const params = new URLSearchParams(window.atob(event.body));
         console.log(event)
         payload = {
             banReason: params.get("banReason") || undefined,
