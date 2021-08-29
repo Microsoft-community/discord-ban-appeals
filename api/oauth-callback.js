@@ -18,7 +18,7 @@ exports.handler = async function (event, context) {
                 client_secret: process.env.DISCORD_CLIENT_SECRET,
                 grant_type: "authorization_code",
                 code: event.queryStringParameters.code,
-                redirect_uri: new URL("/api/oauth-callback", "https://discord-ban-appeals.vercel.app"),
+                redirect_uri: new URL("/api/oauth-callback", process.env.URL),
                 scope: "identify"
             })
         });
