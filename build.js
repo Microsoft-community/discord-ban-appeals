@@ -20,17 +20,17 @@ function replaceInFile(file, original, replacement) {
 
 async function main() {
     if (!process.env.USE_NETLIFY_FORMS) {
-        fs.rename(path.resolve(__dirname, "func", "submission-created.js"), path.resolve(__dirname, "func", "submit-appeal.js"), assertSuccess);
-        replaceInFile(path.resolve(__dirname, "public", "form.html"), "action=\"/success\" netlify", "action=\"/.netlify/functions/submit-appeal\"");
+        fs.rename(path.resolve(__dirname, "api", "submission-created.js"), path.resolve(__dirname, "api", "submit-appeal.js"), assertSuccess);
+        replaceInFile(path.resolve(__dirname, "public", "form.html"), "action=\"/success\" netlify", "action=\"/api/submit-appeal\"");
     }
 
     if (process.env.DISABLE_UNBAN_LINK) {
-        fs.unlink(path.resolve(__dirname, "func", "unban.js"), assertSuccess);
+        fs.unlink(path.resolve(__dirname, "api", "unban.js"), assertSuccess);
     }
 
     const url = process.env.CONTEXT === "production" ? process.env.URL : process.env.DEPLOY_PRIME_URL;
-    replaceInFile(path.resolve(__dirname, "func", "oauth.js"), "DEPLOY_PRIME_URL", `"${url}"`);
-    replaceInFile(path.resolve(__dirname, "func", "oauth-callback.js"), "DEPLOY_PRIME_URL", `"${url}"`);
+    replaceInFile(path.resolve(__dirname, "api", "oauth.js"), "DEPLOY_PRIME_URL", `"${url}"`);
+    replaceInFile(path.resolve(__dirname, "api", "oauth-callback.js"), "DEPLOY_PRIME_URL", `"${url}"`);
 
     // Make sure the bot connected to the gateway at least once.
     const client = new Discord.Client();

@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  functions = "func"
+  functions = "api"
   command = "node build.js"
 
 [build.environment]
