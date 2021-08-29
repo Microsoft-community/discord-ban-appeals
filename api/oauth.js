@@ -1,5 +1,5 @@
 exports.handler = async function (event, context) {
-    const redirectUri = new URL("/api/oauth-callback", VERCEL_URL);
+    const redirectUri = new URL("/api/oauth-callback", process.env.VERCEL_URL);
     let url = `https://discord.com/api/oauth2/authorize?client_id=${encodeURIComponent(process.env.DISCORD_CLIENT_ID)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=identify&prompt=none`;
 
     if (event.queryStringParameters.state !== undefined) {
