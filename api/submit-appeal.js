@@ -19,18 +19,15 @@ exports.handler = async function (event, context) {
         let body = event.body;
         if (event.isBase64Encoded) {
             body = Buffer.from(event.body, 'base64').toString('utf-8');
-            console.log("isBase64Encoded");
         }
 
         const params = new URLSearchParams(body);
-        console.log(event)
         payload = {
             banReason: params.get("banReason") || undefined,
             appealText: params.get("appealText") || undefined,
             futureActions: params.get("futureActions") || undefined,
             token: params.get("token") || undefined
         };
-        console.log(payload)
     }
 
     if (payload.banReason !== undefined &&
