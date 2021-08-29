@@ -23,6 +23,7 @@ exports.handler = async function (event, context) {
             futureActions: params.get("futureActions") || undefined,
             token: params.get("token") || undefined
         };
+        console.log(payload)
     }
 
     if (payload.banReason !== undefined &&
