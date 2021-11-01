@@ -88,7 +88,15 @@ exports.handler = async function (event, context) {
                     userId: userInfo.id
                 };
     
-                message.embed.description = `[Approve appeal and unban user](${unbanUrl.toString()}?token=${encodeURIComponent(createJwt(unbanInfo))})`;
+                message.components = [{
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        style: 5,
+                        label: "Approve appeal and unban user",
+                        url: `${unbanUrl.toString()}?token=${encodeURIComponent(createJwt(unbanInfo))}`
+                    }]
+                }];
             }
         }
 
@@ -115,7 +123,7 @@ exports.handler = async function (event, context) {
                 };
             }
         } else {
-            console.log(await result.json());
+            console.log(JSON.stringify(await result.json()));
             throw new Error("Failed to submit message");
         }
     }

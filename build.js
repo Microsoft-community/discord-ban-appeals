@@ -10,11 +10,17 @@ function assertSuccess(err) {
     }
 }
 
-function replaceInFile(file, original, replacement) {
+function replaceInFile(file, original, replacement, callback) {
     fs.readFile(file, "UTF-8", (err, data) => {
         assertSuccess(err);
 
-        fs.writeFile(file, data.replace(original, replacement), "UTF-8", assertSuccess);
+        fs.writeFile(file, data.replace(original, replacement), "UTF-8", err => {
+            assertSuccess(err);
+
+            if (callback) {
+                callback();
+            }
+        });
     });
 }
 
