@@ -121,8 +121,8 @@ exports.handler = async function (event, context) {
         }
         
         const message = {
+            content: `New application submitted by <@${userInfo.id}>:`,
             embed: {
-                title: "New application submitted!",
                 timestamp: new Date().toISOString(),
                 fields: [
                     {
