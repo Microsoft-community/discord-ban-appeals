@@ -51,4 +51,15 @@ async function unbanUser(userId, guildId, botToken) {
     }
 }
 
-module.exports = { getUserInfo, getBan, unbanUser };
+function isBlocked(userId) {
+    if (process.env.BLOCKED_USERS) {
+        const blockedUsers = process.env.BLOCKED_USERS.replace(/"/g, "").split(",").filter(Boolean);
+        if (blockedUsers.indexOf(userId) > -1) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+module.exports = { getUserInfo, getBan, unbanUser, isBlocked };

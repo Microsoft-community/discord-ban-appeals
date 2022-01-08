@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-const { getUserInfo, getBan } = require("./helpers/user-helpers.js");
+const { getUserInfo, getBan, isBlocked } = require("./helpers/user-helpers.js");
 const { createJwt } = require("./helpers/jwt-helpers.js");
 
 exports.handler = async function (event, context) {
@@ -18,7 +18,7 @@ exports.handler = async function (event, context) {
                 client_secret: process.env.DISCORD_CLIENT_SECRET,
                 grant_type: "authorization_code",
                 code: event.queryStringParameters.code,
-                redirect_uri: new URL(event.path, process.env.URL),
+                redirect_uri: new URL(event.path, DEPLOY_PRIME_URL),
                 scope: "identify"
             })
         });
@@ -31,6 +31,15 @@ exports.handler = async function (event, context) {
         }
 
         const user = await getUserInfo(data.access_token);
+        if (isBlocked(user.id)) {
+            return {
+                statusCode: 303,
+                headers: {
+                    "Location": `/error?msg=${encodeURIComponent("You cannot submit ban appeals with this Discord account.")}`,
+                },
+            };
+        }
+
         if (process.env.GUILD_ID && !process.env.SKIP_BAN_CHECK) {
             const ban = await getBan(user.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
             if (ban === null) {

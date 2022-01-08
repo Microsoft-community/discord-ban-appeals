@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 
 const { API_ENDPOINT, MAX_EMBED_FIELD_CHARS, MAX_EMBED_FOOTER_CHARS } = require("./helpers/discord-helpers.js");
 const { createJwt, decodeJwt } = require("./helpers/jwt-helpers.js");
-const { getBan } = require("./helpers/user-helpers.js");
+const { getBan, isBlocked } = require("./helpers/user-helpers.js");
 
 exports.handler = async function (event, context) {
     let payload;
@@ -31,9 +31,7 @@ exports.handler = async function (event, context) {
         payload.token !== undefined) {
         
         const userInfo = decodeJwt(payload.token);
-        
-        const blockedUsers = JSON.parse(`[${process.env.BLOCKED_USERS || ""}]`);
-        if (blockedUsers.indexOf(userInfo.id) > -1) {
+        if (isBlocked(userInfo.id)) {
             return {
                 statusCode: 303,
                 headers: {
@@ -80,12 +78,20 @@ exports.handler = async function (event, context) {
             }
 
             if (!process.env.DISABLE_UNBAN_LINK) {
-                const unbanUrl = new URL("/.netlify/functions/unban", process.env.URL);
+                const unbanUrl = new URL("/.netlify/functions/unban", DEPLOY_PRIME_URL);
                 const unbanInfo = {
                     userId: userInfo.id
                 };
     
-                message.embed.description = `[Approve appeal and unban user](${unbanUrl.toString()}?token=${encodeURIComponent(createJwt(unbanInfo))})`;
+                message.components = [{
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        style: 5,
+                        label: "Approve appeal and unban user",
+                        url: `${unbanUrl.toString()}?token=${encodeURIComponent(createJwt(unbanInfo))}`
+                    }]
+                }];
             }
         }
 
@@ -112,7 +118,7 @@ exports.handler = async function (event, context) {
                 };
             }
         } else {
-            console.log(await result.json());
+            console.log(JSON.stringify(await result.json()));
             throw new Error("Failed to submit message");
         }
     }
