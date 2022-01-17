@@ -46,13 +46,13 @@ exports.handler = async function (event, context) {
         }
         
         const message = {
+            content: `New appeal submitted by <@${userInfo.id}>:`,
             embed: {
-                title: "New appeal submitted!",
                 timestamp: new Date().toISOString(),
                 fields: [
                     {
                         name: "Submitter",
-                        value: `<@${userInfo.id}> (${userInfo.username}#${userInfo.discriminator})`
+                        value: `<@${userInfo.id}> (${userInfo.username}#${userInfo.discriminator}) | ${userInfo.id}`
                     },
                     {
                         name: "Why were you banned?",
