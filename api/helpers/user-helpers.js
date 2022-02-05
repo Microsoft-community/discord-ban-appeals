@@ -1,6 +1,5 @@
-const fetch = require("node-fetch");
-
-const { API_ENDPOINT } = require("./discord-helpers.js");
+import fetch from "node-fetch";
+import { API_ENDPOINT } from "./discord-helpers.js";
 
 async function getUserInfo(token) {
     const result = await fetch(`${API_ENDPOINT}/users/@me`, {
@@ -20,17 +19,17 @@ async function getUserInfo(token) {
     return data;
 }
 
-function callBanApi(userId, guildId, botToken, method) {
-    return fetch(`${API_ENDPOINT}/guilds/${encodeURIComponent(guildId)}/bans/${encodeURIComponent(userId)}`, {
+function callBanApi(userId, method) {
+    return fetch(`${API_ENDPOINT}/guilds/${encodeURIComponent(process.env.GUILD_ID)}/bans/${encodeURIComponent(userId)}`, {
         method: method,
         headers: {
-            "Authorization": `Bot ${botToken}`
+            "Authorization": `Bot ${process.env.DISCORD_BOT_TOKEN}`
         }
     });
 }
 
-async function getBan(userId, guildId, botToken) {
-    const result = await callBanApi(userId, guildId, botToken, "GET");
+async function getBan(userId) {
+    const result = await callBanApi(userId, "GET");
 
     if (result.ok) {
         return await result.json();
@@ -42,8 +41,8 @@ async function getBan(userId, guildId, botToken) {
     }
 }
 
-async function unbanUser(userId, guildId, botToken) {
-    const result = await callBanApi(userId, guildId, botToken, "DELETE");
+async function unbanUser(userId) {
+    const result = await callBanApi(userId, "DELETE");
 
     if (!result.ok && result.status !== 404) {
         console.log(await result.json());
@@ -62,4 +61,5 @@ function isBlocked(userId) {
     return false;
 }
 
-module.exports = { getUserInfo, getBan, unbanUser, isBlocked };
+export { getUserInfo, getBan, unbanUser, isBlocked };
+
