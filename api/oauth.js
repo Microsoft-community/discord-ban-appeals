@@ -1,15 +1,22 @@
-exports.handler = async function (event, context) {
-    const redirectUri = new URL("/api/oauth-callback", process.env.URL);
-    let url = `https://discord.com/api/oauth2/authorize?client_id=${encodeURIComponent(process.env.DISCORD_CLIENT_ID)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=identify&prompt=none`;
+"use strict";
 
-    if (event.queryStringParameters.state !== undefined) {
-        url += `&state=${encodeURIComponent(event.queryStringParameters.state)}`;
-    }
+export default async (req, res) => {
+	if (!req.headers.host) {
+		res.status(400);
+	}
 
-    return {
-        statusCode: 303,
-        headers: {
-            "Location": url
-        }
-    };
+	const redirectURI = `https://${req.headers.host}/api/oauth-callback`;
+	const params = {
+		client_id: process.env.DISCORD_CLIENT_ID,
+		redirect_uri: redirectURI,
+		response_type: "code",
+		scope: "identify",
+		prompt: "none"
+	}
+	if (req.query.state) {
+		params.state = req.query.state;
+	}
+	const authURL = `https://discord.com/api/oauth2/authorize?${new URLSearchParams(params).toString()}`;
+
+	res.redirect(303, authURL);
 }

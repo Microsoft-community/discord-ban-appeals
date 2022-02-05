@@ -1,54 +1,47 @@
-const fetch = require("node-fetch");
+"use strict";
 
-const { getUserInfo, getBan, isBlocked } = require("./helpers/user-helpers.js");
-const { createJwt } = require("./helpers/jwt-helpers.js");
+import fetch from "node-fetch";
+import { getBan, getUserInfo, isBlocked } from "./helpers/user-helpers.js";
+import { createJWT } from "./helpers/jwt-helpers.js";
 
-exports.handler = async function (event, context) {
-    if (event.httpMethod !== "GET") {
-        return {
-            statusCode: 405
-        };
+export default async (req, res) => {
+    if(req.method !== "GET") {
+        res.status(405).send("Invalid Method");
     }
 
-    if (event.queryStringParameters.code !== undefined) {
+    if(!req.query.code) {
+        res.status(400).send("Incomplete or malformed request");
+    }
+
+    try {
         const result = await fetch("https://discord.com/api/oauth2/token", {
-            method: "POST",
-            body: new URLSearchParams({
-                client_id: process.env.DISCORD_CLIENT_ID,
-                client_secret: process.env.DISCORD_CLIENT_SECRET,
-                grant_type: "authorization_code",
-                code: event.queryStringParameters.code,
-                redirect_uri: new URL("/api/oauth-callback", process.env.URL),
-                scope: "identify"
-            })
-        });
-
+                method: "POST",
+                body: new URLSearchParams({
+                    client_id: process.env.DISCORD_CLIENT_ID,
+                    client_secret: process.env.DISCORD_CLIENT_SECRET,
+                    grant_type: "authorization_code",
+                    code: req.query.code,
+                    redirect_uri: new URL("/api/oauth-callback", `https://${req.headers.host}`).toString(),
+                    scope: "identify"
+                })
+            });
         const data = await result.json();
-
-        if (!result.ok) {
+    
+        if(!result.ok) {
             console.log(data);
             throw new Error("Failed to get user access token");
         }
 
         const user = await getUserInfo(data.access_token);
-        if (isBlocked(user.id)) {
-            return {
-                statusCode: 303,
-                headers: {
-                    "Location": `/error.html?msg=${encodeURIComponent("You cannot submit ban appeals with this Discord account.")}`,
-                },
-            };
+        if(isBlocked(user.id)) {
+            res.redirect(303, `/error.html?msg=${encodeURIComponent("You cannot submit ban appeals with this Discord account.")}`);
         }
 
-        if (process.env.GUILD_ID && !process.env.SKIP_BAN_CHECK) {
+        if(!process.env.SKIP_BAN_CHECK) {
             const ban = await getBan(user.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
-            if (ban === null) {
-                return {
-                    statusCode: 303,
-                    headers: {
-                        "Location": "/error.html"
-                    }
-                };
+
+            if(!ban) {
+                res.redirect(303, "/error.html");
             }
         }
 
@@ -58,20 +51,16 @@ exports.handler = async function (event, context) {
             username: user.username,
             discriminator: user.discriminator
         };
-        let url = `/form.html?token=${encodeURIComponent(createJwt(userPublic, data.expires_in))}`;
-        if (event.queryStringParameters.state !== undefined) {
-            url += `&state=${encodeURIComponent(event.queryStringParameters.state)}`;
+        let url = `/form.html?token=${encodeURIComponent(createJWT(userPublic, data.expires_in))}`;
+        if (req.query.state) {
+            url += `&state=${encodeURIComponent(req.query.state)}`;
         }
 
-        return {
-            statusCode: 303,
-            headers: {
-                "Location": url
-            }
-        };
-    }
+        res.redirect(303, url);
 
-    return {
-        statusCode: 400
-    };
+    } catch(e) {
+        console.error(e);
+        res.status(500).send("An internal error occurred, please inform this site\"s owner about this incident!");
+    }
+    
 }

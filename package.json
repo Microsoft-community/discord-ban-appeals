@@ -1,7 +1,15 @@
 {
-    "dependencies": {
-        "discord.js": "^12.2.0",
-        "jsonwebtoken": "^8.5.1",
-        "node-fetch": "^2.6.1"
-    }
+  "name": "ban-appeals-vercel",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Vercelized Discord ban appeal form",
+  "license": "MIT",
+  "scripts": {
+    "vercel-build": "node ./build.js"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^3.2.0",
+    "tweetnacl": "^1.0.3"
+  }
 }
