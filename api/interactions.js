@@ -189,8 +189,8 @@ export default async (req, res) => {
 };
 
 function verifyRequest(request) {
-    const signature = request.headers.x-signature-ed25519;
-    const timestamp = request.headers.x-signature-timestamp;
+    const signature = request.headers['x-signature-ed25519'];
+    const timestamp = request.headers['x-signature-timestamp'];
 
     return nacl.sign.detached.verify(
         Buffer.from(timestamp + JSON.stringify(request.body)),
