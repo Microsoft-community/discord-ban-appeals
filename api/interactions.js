@@ -35,17 +35,6 @@ export default async (req, res) => {
                 case 2:
                     switch (state) {
                         case "unban":
-                            try {
-                                await unbanUser(userId);
-                            } catch (e) {
-                                console.error(e);
-                                reply(res, {
-                                    content: "An error occurred, please inform the site owner about this!",
-                                    flags: 64,
-                                });
-                                break;
-                            }
-
                             if (newMessage.embeds[0].fields[4]) {
                                 const rejectCount = newMessage.embeds[0].fields[4].value.split("\n").length;
                                 reply(res, {
@@ -63,6 +52,17 @@ export default async (req, res) => {
                                 });
                                 break;
                             } else {
+                                try {
+                                    await unbanUser(userId);
+                                } catch (e) {
+                                    console.error(e);
+                                    reply(res, {
+                                        content: "An error occurred, please inform the site owner about this!",
+                                        flags: 64,
+                                    });
+                                    break;
+                                }
+
                                 newMessage.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently in progress`;
                                 newMessage.embeds[0].color = 16705372;
                                 newMessage.components[0].components = [
