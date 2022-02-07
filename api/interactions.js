@@ -121,7 +121,10 @@ export default async (req, res) => {
                         case "confirmunban":
                             const oldMessage = await getRepliedMessage(body);
                             if(oldMessage.embeds[0].color !== 15548997) {
-                                doNothing(res);
+                                reply(res, {
+                                    content: "This action cannot be performed now!",
+                                    flags: 64
+                                });
                                 return;
                             }
 
@@ -162,7 +165,10 @@ export default async (req, res) => {
                         case "confirmcomplete":
                             const oldMessage2 = await getRepliedMessage(body);
                             if(oldMessage2.embeds[0].color !== 16705372) {
-                                doNothing(res);
+                                reply(res, {
+                                    content: "This action cannot be performed now!",
+                                    flags: 64
+                                });
                                 return;
                             }
 
@@ -251,12 +257,5 @@ function reply(response, message) {
     response.status(200).json({
         type: 4,
         data: message,
-    });
-}
-
-function doNothing(response) {
-    response.status(200).json({
-        type: 6,
-        data: {}
     });
 }
