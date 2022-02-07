@@ -9,8 +9,8 @@ import { API_ENDPOINT, MAX_EMBED_FIELD_CHARS, MAX_EMBED_FOOTER_CHARS } from "./h
 export default async (req, res) => {
     if (req.method !== "POST") {
         res.status(405).send("Invalid method");
+        return;
     }
-
 
     const body = req.body;
     const params = new URLSearchParams(body);

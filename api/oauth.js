@@ -1,8 +1,14 @@
 "use strict";
 
 export default async (req, res) => {
+	if(req.method !== "GET") {
+		res.status(405).send("Invalid method");
+		return;
+	}
+
 	if (!req.headers.host) {
 		res.status(400);
+		return;
 	}
 
 	const redirectURI = `https://${req.headers.host}/api/oauth-callback`;

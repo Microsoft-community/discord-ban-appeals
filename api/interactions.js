@@ -50,17 +50,17 @@ export default async (req, res) => {
                                         }]
                                     }]
                                 });
-                                break;
+                                return;
                             } else {
                                 try {
                                     await unbanUser(userId);
                                 } catch (e) {
                                     console.error(e);
                                     reply(res, {
-                                        content: "An error occurred, please inform the site owner about this!",
+                                        content: "An error occurred, please inform the form owner about this!",
                                         flags: 64,
                                     });
-                                    break;
+                                    return;
                                 }
 
                                 newMessage.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently in progress`;
@@ -76,7 +76,7 @@ export default async (req, res) => {
                             }
 
                             editMessage(res, newMessage);
-                            break;
+                            return;
 
                         case "reject":
                             newMessage.content = `Appeal from <@${userId}> (${userId}) rejected`;
@@ -91,7 +91,7 @@ export default async (req, res) => {
                             }
 
                             editMessage(res, newMessage);
-                            break;
+                            return;
 
                         case "complete":
                             if (body.data.custom_id.split("_")[2] !== body.member.user.id) {
@@ -116,9 +116,18 @@ export default async (req, res) => {
                                 editMessage(res, newMessage);
                             }
 
-                            break;
-
+                            return;
+                            
                         case "confirmunban":
+                            const oldMessage = await getRepliedMessage(body);
+                            if(oldMessage.embeds[0].color !== 15548997) {
+                                reply(res, {
+                                    content: "This action cannot be performed now!",
+                                    flags: 64
+                                });
+                                return;
+                            }
+
                             try {
                                 await unbanUser(userId);
                             } catch (e) {
@@ -128,10 +137,8 @@ export default async (req, res) => {
                                         "An error occurred, please inform the site owner about this!",
                                     flags: 64,
                                 });
-                                break;
+                                return;
                             }
-
-                            const oldMessage = await getRepliedMessage(body);
 
                             const editedMessage = {
                                 content: `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently in progress`,
@@ -153,10 +160,17 @@ export default async (req, res) => {
 
                             await editRepliedMessage(editedMessage, body);
                             editMessage(res, newMessage);
-                            break;
+                            return;
 
                         case "confirmcomplete":
                             const oldMessage2 = await getRepliedMessage(body);
+                            if(oldMessage2.embeds[0].color !== 16705372) {
+                                reply(res, {
+                                    content: "This action cannot be performed now!",
+                                    flags: 64
+                                });
+                                return;
+                            }
 
                             const editedMessage2 = {
                                 content: `Appeal from <@${userId}> (${userId}) accepted, user has been notified`,
@@ -170,7 +184,7 @@ export default async (req, res) => {
 
                             await editRepliedMessage(editedMessage2, body);
                             editMessage(res, newMessage);
-                            break;
+                            return;
 
                     }
             }
@@ -232,7 +246,7 @@ async function editRepliedMessage(newMessage, body) {
         body: JSON.stringify(newMessage)
     });
     const data = await res.json();
-    
+
     if (!res.ok) {
         console.log(data);
         throw new Error("Something went wrong when attempting to edit original message");

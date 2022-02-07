@@ -7,10 +7,12 @@ import { createJWT } from "./helpers/jwt-helpers.js";
 export default async (req, res) => {
     if(req.method !== "GET") {
         res.status(405).send("Invalid Method");
+        return;
     }
 
     if(!req.query.code) {
         res.status(400).send("Incomplete or malformed request");
+        return;
     }
 
     try {
@@ -60,7 +62,7 @@ export default async (req, res) => {
 
     } catch(e) {
         console.error(e);
-        res.status(500).send("An internal error occurred, please inform this site\"s owner about this incident!");
+        res.status(500).send("An internal error occurred, please inform this site\'s owner about this incident!");
     }
     
 }
