@@ -40,7 +40,7 @@ export default async (req, res) => {
         }
 
         if(!process.env.SKIP_BAN_CHECK) {
-            const ban = await getBan(user.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
+            const ban = await getBan(user.id);
 
             if(!ban) {
                 res.redirect(303, "/error.html");

@@ -33,7 +33,7 @@ export default async (req, res) => {
 
         const message = {
             content: `New appeal submitted by <@${userInfo.id}>: (${userInfo.id})`,
-            embed: {
+            embeds: [{
                 timestamp: new Date().toISOString(),
                 fields: [
                     {
@@ -53,13 +53,13 @@ export default async (req, res) => {
                         value: payload.futureActions.slice(0, MAX_EMBED_FIELD_CHARS)
                     }
                 ]
-            }
+            }]
         }
 
         try {
             const ban = await getBan(userInfo.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
             if (ban !== null && ban.reason) {
-                message.embed.footer = {
+                message.embeds[0].footer = {
                     text: `Original ban reason: ${ban.reason}`.slice(0, MAX_EMBED_FOOTER_CHARS)
                 };
             }
