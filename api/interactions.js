@@ -110,7 +110,7 @@ export default async (req, res) => {
                                 });
                             } else {
                                 newMessage.content = `Appeal from <@${userId}> (${userId}) accepted, user has been notified`;
-                                newMessage.embeds[0].color = 5763719;
+                                newMessage.embeds[0].color = 3908957;
                                 newMessage.components = [];
 
                                 editMessage(res, newMessage);
@@ -175,7 +175,7 @@ export default async (req, res) => {
                             const editedMessage2 = {
                                 content: `Appeal from <@${userId}> (${userId}) accepted, user has been notified`,
                                 embeds: [
-                                    Object.assign(oldMessage2.embeds[0], { color: 576371 })
+                                    Object.assign(oldMessage2.embeds[0], { color: 3908957 })
                                 ],
                                 components: []
                             };
