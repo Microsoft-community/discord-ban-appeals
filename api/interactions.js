@@ -34,17 +34,49 @@ export default async (req, res) => {
             switch (body.data.component_type) {
                 case 2:
                     switch (state) {
-                        case "unban":
+                        case "accept":
                             if (newMessage.embeds[0].fields[4]) {
                                 const rejectCount = newMessage.embeds[0].fields[4].value.split("\n").length;
                                 reply(res, {
-                                    content: `Are you sure you want to unban this user? ${rejectCount} ${rejectCount == 1 ? "user has" : "users have"} rejected this appeal.`,
+                                    content: `Are you sure you want to accept this appeal? ${rejectCount} ${rejectCount == 1 ? "user has" : "users have"} rejected this appeal.`,
                                     flags: 64,
                                     components: [{
                                         type: 1,
                                         components: [{
                                             type: 2,
-                                            custom_id: `confirmunban_${userId}`,
+                                            custom_id: `confirmaccept_${userId}`,
+                                            style: 3,
+                                            label: "Yes, I'm sure",
+                                        }]
+                                    }]
+                                });
+                                return;
+                            } else {
+                                newMessage.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently pending unban`;
+                                newMessage.embeds[0].color = 16705372;
+                                newMessage.components[0].components = [
+                                    {
+                                        type: 2,
+                                        custom_id: `unban_${userId}_${body.member.user.id}`,
+                                        style: 2,
+                                        label: "Unban user",
+                                    }
+                                ];
+                            }
+
+                            editMessage(res, newMessage);
+                            return;
+                            
+                        case "unban":
+                            if (body.data.custom_id.split("_")[2] && body.data.custom_id.split("_")[2] !== body.member.user.id) {
+                                reply(res, {
+                                    content: `Someone else accepted this appeal, are you sure you want to unban them?`,
+                                    flags: 64,
+                                    components: [{
+                                        type: 1,
+                                        components: [{
+                                            type: 2,
+                                            custom_id: `confirmunban_${userId}_${body.data.custom_id.split("_")[2]}`,
                                             style: 3,
                                             label: "Yes, I'm sure",
                                         }]
@@ -63,7 +95,7 @@ export default async (req, res) => {
                                     return;
                                 }
 
-                                newMessage.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently in progress`;
+                                newMessage.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}> and user unbanned, currently in progress`;
                                 newMessage.embeds[0].color = 16705372;
                                 newMessage.components[0].components = [
                                     {
@@ -117,10 +149,42 @@ export default async (req, res) => {
                             }
 
                             return;
-                            
-                        case "confirmunban":
+
+                        case "confirmaccept":
                             const oldMessage = await getRepliedMessage(body);
                             if(oldMessage.embeds[0].color !== 15548997) {
+                                reply(res, {
+                                    content: "This action cannot be performed now!",
+                                    flags: 64
+                                });
+                                return;
+                            }
+
+                            const editedMessage = {
+                                content: `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently pending unban`,
+                                embeds: [
+                                    Object.assign(oldMessage.embeds[0], { color: 16705372 })
+                                ],
+                                components: [{
+                                    type: 1,
+                                    components: [{
+                                        type: 2,
+                                        custom_id: `unban_${userId}_${body.member.user.id}`,
+                                        style: 2,
+                                        label: "Unban user",
+                                    }]
+                                }]
+                            };
+
+                            newMessage.components[0].components[0].disabled = true;
+
+                            await editRepliedMessage(editedMessage, body);
+                            editMessage(res, newMessage);
+                            return;
+                            
+                        case "confirmunban":
+                            const oldMessage2 = await getRepliedMessage(body);
+                            if(oldMessage2.embeds[0].color !== 16705372) {
                                 reply(res, {
                                     content: "This action cannot be performed now!",
                                     flags: 64
@@ -140,16 +204,16 @@ export default async (req, res) => {
                                 return;
                             }
 
-                            const editedMessage = {
-                                content: `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently in progress`,
+                            const editedMessage2 = {
+                                content: `Appeal from <@${userId}> (${userId}) accepted by <@${body.data.custom_id.split("_")[2]}>, currently in progress`,
                                 embeds: [
-                                    Object.assign(oldMessage.embeds[0], { color: 16705372 })
+                                    Object.assign(oldMessage2.embeds[0], { color: 16705372 })
                                 ],
                                 components: [{
                                     type: 1,
                                     components: [{
                                         type: 2,
-                                        custom_id: `complete_${userId}_${body.member.user.id}`,
+                                        custom_id: `complete_${userId}_${body.data.custom_id.split("_")[2]}`,
                                         style: 2,
                                         label: "Mark as complete",
                                     }]
@@ -158,13 +222,13 @@ export default async (req, res) => {
 
                             newMessage.components[0].components[0].disabled = true;
 
-                            await editRepliedMessage(editedMessage, body);
+                            await editRepliedMessage(editedMessage2, body);
                             editMessage(res, newMessage);
                             return;
 
                         case "confirmcomplete":
-                            const oldMessage2 = await getRepliedMessage(body);
-                            if(oldMessage2.embeds[0].color !== 16705372) {
+                            const oldMessage3 = await getRepliedMessage(body);
+                            if(oldMessage3.embeds[0].color !== 16705372) {
                                 reply(res, {
                                     content: "This action cannot be performed now!",
                                     flags: 64
@@ -172,17 +236,17 @@ export default async (req, res) => {
                                 return;
                             }
 
-                            const editedMessage2 = {
+                            const editedMessage3 = {
                                 content: `Appeal from <@${userId}> (${userId}) accepted, user has been notified`,
                                 embeds: [
-                                    Object.assign(oldMessage2.embeds[0], { color: 3908957 })
+                                    Object.assign(oldMessage3.embeds[0], { color: 3908957 })
                                 ],
                                 components: []
                             };
 
                             newMessage.components[0].components[0].disabled = true;
 
-                            await editRepliedMessage(editedMessage2, body);
+                            await editRepliedMessage(editedMessage3, body);
                             editMessage(res, newMessage);
                             return;
 

@@ -74,8 +74,8 @@ export default async (req, res) => {
                     {
                         type: 2,
                         style: 3,
-                        label: "Approve appeal and unban user",
-                        custom_id: `unban_${userInfo.id}`
+                        label: "Accept appeal",
+                        custom_id: `accept_${userInfo.id}`
                     },
                     {
                         type: 2,
