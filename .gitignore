@@ -106,5 +106,3 @@ dist
 .vercel
 # Local Netlify folder
 .netlify
-
-.vercel
