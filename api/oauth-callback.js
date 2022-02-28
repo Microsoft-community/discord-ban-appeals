@@ -15,11 +15,6 @@ export default async (req, res) => {
         return;
     }
 
-    if(!verifyCSRF(req)) {
-        res.status(403).send("Unauthorized");
-        return;
-    }
-
     try {
         const result = await fetch("https://discord.com/api/oauth2/token", {
                 method: "POST",
@@ -70,25 +65,4 @@ export default async (req, res) => {
         res.status(500).send("An internal error occurred, please inform this site\'s owner about this incident!");
     }
     
-}
-
-function parseCookies(str) {
-    return str
-        .split(';')
-        .map(v => v.split('='))
-        .reduce((acc, v) => {
-            acc[v[0]] = v[1];
-            return acc;
-        }, {});
-}
-
-function verifyCSRF(req) {
-    if (req.query.state && req.headers.cookie) {
-        const cookies = parseCookies(req.headers.cookie);
-        if (cookies["__Secure-CSRFState"]) {
-            return cookies["__Secure-CSRFState"] ===  req.query.state;
-        }
-    }
-
-    return false;
 }
