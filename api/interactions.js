@@ -76,7 +76,7 @@ export default async (req, res) => {
                                         type: 1,
                                         components: [{
                                             type: 2,
-                                            custom_id: `confirmunban_${userId}_${body.data.custom_id.split("_")[2]}`,
+                                            custom_id: `confirmunban_${userId}_${body.member.user.id}`,
                                             style: 3,
                                             label: "Yes, I'm sure",
                                         }]
