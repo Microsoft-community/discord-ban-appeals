@@ -30,7 +30,6 @@ export default async (req, res) => {
         if (isBlocked(userInfo.id)) {
             res.redirect(303, `/error.html?msg=${encodeURIComponent("You cannot submit ban appeals with this Discord account.")}`);
         }
-
         
         let timestamp = new Date();
         let strTimestamp = null;

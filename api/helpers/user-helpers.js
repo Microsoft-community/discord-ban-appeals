@@ -39,8 +39,6 @@ function callCliptokBanApi(userid) {
 
 async function getCliptokBanObject(userid) {
     const result = await callCliptokBanApi(userid);
-    console.log(result)
-
     if (result.ok){
         return await result.json();
     } else {
