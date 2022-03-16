@@ -2,7 +2,7 @@
 
 import fetch from "node-fetch";
 import { decodeJWT } from "./helpers/jwt-helpers.js";
-import { isBlocked, getBan } from "./helpers/user-helpers.js";
+import { isBlocked, getBan, getCliptokBanObject } from "./helpers/user-helpers.js";
 import { API_ENDPOINT, MAX_EMBED_FIELD_CHARS, MAX_EMBED_FOOTER_CHARS } from "./helpers/discord-helpers.js";
 
 
@@ -31,10 +31,35 @@ export default async (req, res) => {
             res.redirect(303, `/error.html?msg=${encodeURIComponent("You cannot submit ban appeals with this Discord account.")}`);
         }
 
+        
+        let timestamp = new Date();
+        let strTimestamp = null;
+
+        const cliptokBanData = await getCliptokBanObject(userInfo.id);
+        if (process.env.CLIPTOK_API_TOKEN != null && process.env.CLIPTOK_API_ENDPOINT != null) {
+            try {
+                // handle things being missing, strTimestamp stays as null
+                if (cliptokBanData != null && cliptokBanData.data != null && cliptokBanData.data.actionTime != null){
+                    timestamp = new Date();
+                    timestamp.setTime(Date.parse(cliptokBanData.data.actionTime));
+                    strTimestamp = timestamp.toISOString();
+                }
+            }
+            catch(e) {
+                // the data from cliptok is just an extra, if it errors then completely ignore it instead of hard failing.
+                // in this case strTimestamp would stay as null
+                // ideally this shouldn't happen because of all the null checks above, but we still don't want appeals failing.
+                console.log(e)
+            }
+        } else {
+            // if the env vars aren't there, keep behaviour consistent with previous versions
+            strTimestamp = new Date().toISOString();
+        }
+
         const message = {
             content: `New appeal submitted by <@${userInfo.id}>: (${userInfo.id})`,
             embeds: [{
-                timestamp: new Date().toISOString(),
+                timestamp: strTimestamp,
                 fields: [
                     {
                         name: "Submitter",

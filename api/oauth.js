@@ -11,7 +11,9 @@ export default async (req, res) => {
 		return;
 	}
 
-	const redirectURI = `https://${req.headers.host}/api/oauth-callback`;
+	console.log(req.headers)
+
+	const redirectURI = `https://${req.headers["x-forwarded-host"]}/api/oauth-callback`;
 	const params = {
 		client_id: process.env.DISCORD_CLIENT_ID,
 		redirect_uri: redirectURI,

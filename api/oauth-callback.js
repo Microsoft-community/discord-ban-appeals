@@ -16,6 +16,7 @@ export default async (req, res) => {
     }
 
     try {
+        console.log(req.headers)
         const result = await fetch("https://discord.com/api/oauth2/token", {
                 method: "POST",
                 body: new URLSearchParams({
@@ -23,7 +24,7 @@ export default async (req, res) => {
                     client_secret: process.env.DISCORD_CLIENT_SECRET,
                     grant_type: "authorization_code",
                     code: req.query.code,
-                    redirect_uri: new URL("/api/oauth-callback", `https://${req.headers.host}`).toString(),
+                    redirect_uri: new URL("/api/oauth-callback", `https://${req.headers["x-forwarded-host"]}`).toString(),
                     scope: "identify"
                 })
             });
