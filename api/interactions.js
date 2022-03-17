@@ -95,7 +95,7 @@ export default async (req, res) => {
                                     return;
                                 }
 
-                                newMessage.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}> and user unbanned, currently in progress`;
+                                newMessage.content = `Appeal from <@${userId}> accepted by <@${body.member.user.id}> and user unbanned, currently in progress (${userId})`;
                                 newMessage.embeds[0].color = 16705372;
                                 newMessage.components[0].components = [
                                     {
@@ -111,7 +111,7 @@ export default async (req, res) => {
                             return;
 
                         case "reject":
-                            newMessage.content = `Appeal from <@${userId}> (${userId}) rejected`;
+                            newMessage.content = `Appeal from <@${userId}> rejected (${userId})`;
                             newMessage.embeds[0].color = 15548997;
                             if (!newMessage.embeds[0].fields[4]) {
                                 newMessage.embeds[0].fields[4] = {
@@ -161,7 +161,7 @@ export default async (req, res) => {
                             }
 
                             const editedMessage = {
-                                content: `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently pending unban`,
+                                content: `Appeal from <@${userId}> accepted by <@${body.member.user.id}>, currently pending unban (${userId})`,
                                 embeds: [
                                     Object.assign(oldMessage.embeds[0], { color: 16705372 })
                                 ],
@@ -205,7 +205,7 @@ export default async (req, res) => {
                             }
 
                             const editedMessage2 = {
-                                content: `Appeal from <@${userId}> (${userId}) accepted by <@${body.data.custom_id.split("_")[2]}>, currently in progress`,
+                                content: `Appeal from <@${userId}> accepted by <@${body.data.custom_id.split("_")[2]}>, currently in progress (${userId})`,
                                 embeds: [
                                     Object.assign(oldMessage2.embeds[0], { color: 16705372 })
                                 ],
@@ -237,7 +237,7 @@ export default async (req, res) => {
                             }
 
                             const editedMessage3 = {
-                                content: `Appeal from <@${userId}> (${userId}) accepted, user has been notified`,
+                                content: `Appeal from <@${userId}> accepted, user has been notified`,
                                 embeds: [
                                     Object.assign(oldMessage3.embeds[0], { color: 3908957 })
                                 ],
