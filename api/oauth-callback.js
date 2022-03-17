@@ -36,7 +36,7 @@ export default async (req, res) => {
 
         const user = await getUserInfo(data.access_token);
         if(isBlocked(user.id)) {
-            res.redirect(303, `/error.html?msg=${encodeURIComponent("You cannot submit ban appeals with this Discord account.")}`);
+            res.redirect(303, `/error.html?msg=${encodeURIComponent("Your ability to submit ban appeals has been revoked due to abuse or spam.")}`);
         }
 
         if(!process.env.SKIP_BAN_CHECK) {
