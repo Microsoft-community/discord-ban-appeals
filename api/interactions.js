@@ -85,7 +85,7 @@ export default async (req, res) => {
                                 return;
                             } else {
                                 try {
-                                    await unbanUser(userId);
+                                    await unbanUser(userId, `[Unban by ${body.member.user.username}#${body.member.user.discriminator}]: Ban appeal accepted.`);
                                 } catch (e) {
                                     console.error(e);
                                     reply(res, {
@@ -193,7 +193,7 @@ export default async (req, res) => {
                             }
 
                             try {
-                                await unbanUser(userId);
+                                await unbanUser(userId, `[Unban by ${body.member.user.username}#${body.member.user.discriminator}]: Ban appeal accepted.`);
                             } catch (e) {
                                 console.error(e);
                                 reply(res, {

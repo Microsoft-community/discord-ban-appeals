@@ -19,11 +19,12 @@ async function getUserInfo(token) {
     return data;
 }
 
-function callBanApi(userId, method) {
+function callBanApi(userId, method, auditLogReason = null) {
     return fetch(`${API_ENDPOINT}/guilds/${encodeURIComponent(process.env.GUILD_ID)}/bans/${encodeURIComponent(userId)}`, {
         method: method,
         headers: {
-            "Authorization": `Bot ${process.env.DISCORD_BOT_TOKEN}`
+            "Authorization": `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+            "X-Audit-Log-Reason": encodeURIComponent(auditLogReason)
         }
     });
 }
@@ -59,8 +60,8 @@ async function getBan(userId) {
     }
 }
 
-async function unbanUser(userId) {
-    const result = await callBanApi(userId, "DELETE");
+async function unbanUser(userId, reason) {
+    const result = await callBanApi(userId, "DELETE", reason);
 
     if (!result.ok && result.status !== 404) {
         console.log(await result.json());

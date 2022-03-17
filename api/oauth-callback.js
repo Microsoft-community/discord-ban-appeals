@@ -16,7 +16,6 @@ export default async (req, res) => {
     }
 
     try {
-        console.log(req.headers)
         const result = await fetch("https://discord.com/api/oauth2/token", {
                 method: "POST",
                 body: new URLSearchParams({
