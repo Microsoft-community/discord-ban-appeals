@@ -34,8 +34,8 @@ export default async (req, res) => {
         let timestamp = new Date();
         let strTimestamp = null;
 
-        const cliptokBanData = await getCliptokBanObject(userInfo.id);
         if (process.env.CLIPTOK_API_TOKEN != null && process.env.CLIPTOK_API_ENDPOINT != null) {
+            const cliptokBanData = await getCliptokBanObject(userInfo.id);
             try {
                 // handle things being missing, strTimestamp stays as null
                 if (cliptokBanData != null && cliptokBanData.data != null && cliptokBanData.data.actionTime != null){
