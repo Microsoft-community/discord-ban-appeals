@@ -4,7 +4,6 @@ import { unbanUser } from "../helpers/user-helpers.js"
 async function request(res, body, doUserCheck = true) {
     const message = body.message;
     const userId = body.data.custom_id.split("_")[1];
-    console.log("id " + userId);
 
     if (doUserCheck && message.embeds[0].fields[4]) {
         const rejectCount = message.embeds[0].fields[4].value.split("\n").length;

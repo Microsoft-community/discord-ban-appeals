@@ -10,7 +10,6 @@ export default async (req, res) => {
     }
 
     const body = req.body;
-    console.dir(body);
 
     if (body.application_id !== process.env.DISCORD_CLIENT_ID) {
         res.status(400);

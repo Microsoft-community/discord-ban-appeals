@@ -21,7 +21,6 @@ async function request(res, body) {
     const newBody = v8.deserialize(v8.serialize(body));            
     newBody.message = oldMessage;                                  
     newBody.data.custom_id = body.data.custom_id.substring(8);     
-    console.log(body.data.custom_id)
     await request(res, newBody, false);
     await editMessage(res, body.message);
 }
