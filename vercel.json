@@ -1,0 +1,7 @@
+{
+    "functions": {
+      "api/interactions.js": {
+        "includeFiles": "buttons/**"
+      }
+    }
+  }

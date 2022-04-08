@@ -1,9 +1,9 @@
 "use strict";
 
 import fetch from "node-fetch";
-import { decodeJWT } from "./helpers/jwt-helpers.js";
-import { isBlocked, getBan, getCliptokBanObject } from "./helpers/user-helpers.js";
-import { API_ENDPOINT, MAX_EMBED_FIELD_CHARS, MAX_EMBED_FOOTER_CHARS } from "./helpers/discord-helpers.js";
+import { decodeJWT } from "../helpers/jwt-helpers.js";
+import { isBlocked, getBan, getCliptokBan } from "../helpers/user-helpers.js";
+import { API_ENDPOINT, MAX_EMBED_FIELD_CHARS, MAX_EMBED_FOOTER_CHARS } from "../helpers/discord-helpers.js";
 
 
 export default async (req, res) => {
@@ -35,7 +35,7 @@ export default async (req, res) => {
         let strTimestamp = null;
 
         if (process.env.CLIPTOK_API_TOKEN != null && process.env.CLIPTOK_API_ENDPOINT != null) {
-            const cliptokBanData = await getCliptokBanObject(userInfo.id);
+            const cliptokBanData = await getCliptokBan(userInfo.id);
             try {
                 // handle things being missing, strTimestamp stays as null
                 if (cliptokBanData != null && cliptokBanData.data != null && cliptokBanData.data.actionTime != null){
@@ -98,6 +98,12 @@ export default async (req, res) => {
                     {
                         type: 2,
                         style: 3,
+                        label: "Accept appeal and unban",
+                        custom_id: `unban_${userInfo.id}`
+                    },
+                    {
+                        type: 2,
+                        style: 2,
                         label: "Accept appeal",
                         custom_id: `accept_${userInfo.id}`
                     },

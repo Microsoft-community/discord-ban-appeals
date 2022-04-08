@@ -19,27 +19,24 @@ async function getUserInfo(token) {
     return data;
 }
 
-function callBanApi(userId, method, auditLogReason = null) {
+function callBanApi(userId, method, auditLogReason = "") {
     return fetch(`${API_ENDPOINT}/guilds/${encodeURIComponent(process.env.GUILD_ID)}/bans/${encodeURIComponent(userId)}`, {
         method: method,
         headers: {
             "Authorization": `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-            "X-Audit-Log-Reason": encodeURIComponent(auditLogReason)
+            "X-Audit-Log-Reason": auditLogReason
         }
     });
 }
 
-function callCliptokBanApi(userid) {
-    return fetch(`${process.env.CLIPTOK_API_ENDPOINT}/bans/${encodeURIComponent(userid)}`, {
+async function getCliptokBan(userid) {
+    const result = await fetch(`${process.env.CLIPTOK_API_ENDPOINT}/bans/${encodeURIComponent(userid)}`, {
         method: "GET",
         headers: {
             "Authorization": process.env.CLIPTOK_API_TOKEN
         }
     });
-}
 
-async function getCliptokBanObject(userid) {
-    const result = await callCliptokBanApi(userid);
     if (result.ok){
         return await result.json();
     } else {
@@ -80,5 +77,5 @@ function isBlocked(userId) {
     return false;
 }
 
-export { getUserInfo, getBan, unbanUser, isBlocked, getCliptokBanObject };
+export { getUserInfo, getBan, unbanUser, isBlocked, getCliptokBan };
 

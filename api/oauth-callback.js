@@ -1,8 +1,8 @@
 "use strict";
 
 import fetch from "node-fetch";
-import { getBan, getUserInfo, isBlocked } from "./helpers/user-helpers.js";
-import { createJWT } from "./helpers/jwt-helpers.js";
+import { getBan, getUserInfo, isBlocked } from "../helpers/user-helpers.js";
+import { createJWT } from "../helpers/jwt-helpers.js";
 
 export default async (req, res) => {
     if(req.method !== "GET") {
