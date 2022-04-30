@@ -45,7 +45,7 @@ By using OAuth2, it ensures users can't forge or fake appeals.
 
 13. Again, click the **Save Changes** button.
 
-14. You should be good to go! You might want to test if it works as intended with an alt account, and if you encounter any problems feel free to [create an issue on GitHub](https://github.com/sylveon/discord-ban-appeals/issues/new).
+14. You should be good to go! You might want to test if it works as intended with an alt account, and if you encounter any problems feel free to [create an issue on GitHub](https://github.com/Microsoft-community/discord-ban-appeals/issues/new).
 
 ## Blocking users
 
