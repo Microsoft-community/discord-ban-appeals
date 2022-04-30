@@ -18,7 +18,7 @@ By using OAuth2, it ensures users can't forge or fake appeals.
    ![](https://cdn.discordapp.com/attachments/688870664941076514/743301339752169522/unknown.png)
 
 5. Click this button:  
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheftymouse%2Fmsft-ban-appeals&env=DISCORD_CLIENT_ID,DISCORD_CLIENT_SECRET,DISCORD_BOT_TOKEN,DISCORD_PUBLIC_KEY,GUILD_ID,APPEALS_CHANNEL,JWT_SECRET&envDescription=Environment%20variables%20required%20for%20the%20form%20to%20function.&envLink=https%3A%2F%2Fgithub.com%2Fheftymouse%2Fmsft-ban-appeals%23how-do-i-use-this&project-name=discord-ban-appeals&demo-title=Discord%20Ban%20Appeals&demo-description=A%20sample%20ban%20appeal%20form%20for%20Discord%20with%20OAuth2%20support.)
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMicrosoft-community%2Fdiscord-ban-appeals&env=DISCORD_CLIENT_ID,DISCORD_CLIENT_SECRET,DISCORD_BOT_TOKEN,DISCORD_PUBLIC_KEY,GUILD_ID,APPEALS_CHANNEL,JWT_SECRET&envDescription=Environment%20variables%20required%20for%20the%20form%20to%20function.&envLink=https%3A%2F%2Fgithub.com%2FMicrosoft-community%2Fdiscord-ban-appeals%23how-do-i-use-this&project-name=discord-ban-appeals&demo-title=Discord%20Ban%20Appeals&demo-description=A%20sample%20ban%20appeal%20form%20for%20Discord%20with%20OAuth2%20support.)
 
 6. In the web page that shows, login to your GitHub, GitLab or Bitbucket account. Create a repo for your form with your name of choice, then fill in these environment variables:
    | Variable Name          | Instructions                                                                                                               |
