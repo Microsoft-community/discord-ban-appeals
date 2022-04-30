@@ -11,5 +11,8 @@
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^3.2.3",
     "tweetnacl": "^1.0.3"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
