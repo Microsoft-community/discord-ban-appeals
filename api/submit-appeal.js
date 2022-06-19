@@ -28,7 +28,7 @@ export default async (req, res) => {
 
         const userInfo = decodeJWT(payload.token);
         if (isBlocked(userInfo.id)) {
-            res.redirect(303, `/error.html?msg=${encodeURIComponent("You cannot submit ban appeals with this Discord account.")}`);
+            res.redirect(303, `/error.html?msg=${encodeURIComponent("Your ability to submit ban appeals has been revoked due to abuse or spam.")}`);
         }
         
         let timestamp = new Date();
