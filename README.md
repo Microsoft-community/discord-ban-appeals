@@ -12,10 +12,10 @@ By using OAuth2, it ensures users can't forge or fake appeals.
    > **Pro tip**: Use the **URL generator** under the **OAuth2** section of the Developer Portal dashboard for your application to generate the invite link. Make sure to select the **`bot`** scope!
 
 3. In your server, create a channel dedicated to ban appeals. Ensure only mods and the bot can view the channel, and that the bot has the **Send Messages** and **Embed Links** permissions for this channel.  
-   ![](https://cdn.discordapp.com/attachments/688870664941076514/743300978119278642/unknown.png)
+   ![](https://cdn.discordapp.com/attachments/924837858878034003/1014080015115239424/unknown.png)
 
-4. In Discord's settings, go in the **Appearance** section and enable **Developer Mode**. You will need it soon.  
-   ![](https://cdn.discordapp.com/attachments/688870664941076514/743301339752169522/unknown.png)
+4. In Discord's settings, go in the **Advanced** section and enable **Developer Mode**. You will need it soon.  
+   ![](https://cdn.discordapp.com/attachments/924837858878034003/1014086132738306119/unknown.png)
 
 5. Click this button:  
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMicrosoft-community%2Fdiscord-ban-appeals&env=DISCORD_CLIENT_ID,DISCORD_CLIENT_SECRET,DISCORD_BOT_TOKEN,DISCORD_PUBLIC_KEY,GUILD_ID,APPEALS_CHANNEL,JWT_SECRET&envDescription=Environment%20variables%20required%20for%20the%20form%20to%20function.&envLink=https%3A%2F%2Fgithub.com%2FMicrosoft-community%2Fdiscord-ban-appeals%23how-do-i-use-this&project-name=discord-ban-appeals&demo-title=Discord%20Ban%20Appeals&demo-description=A%20sample%20ban%20appeal%20form%20for%20Discord%20with%20OAuth2%20support.)
