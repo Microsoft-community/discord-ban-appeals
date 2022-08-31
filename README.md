@@ -1,6 +1,6 @@
 # Discord Ban Appeals
 
-This is a form which allows users to appeal their bans from a Discord server.
+This is a form that allows users to appeal their bans from a Discord server.
 
 By using OAuth2, it ensures users can't forge or fake appeals.
 
@@ -14,7 +14,7 @@ By using OAuth2, it ensures users can't forge or fake appeals.
 3. In your server, create a channel dedicated to ban appeals. Ensure only mods and the bot can view the channel, and that the bot has the **Send Messages** and **Embed Links** permissions for this channel.  
    ![](https://cdn.discordapp.com/attachments/924837858878034003/1014080015115239424/unknown.png)
 
-4. In Discord's settings, go in the **Advanced** section and enable **Developer Mode**. You will need it soon.  
+4. In Discord's settings, go to the **Advanced** section and enable **Developer Mode**. You will need it soon.  
    ![](https://cdn.discordapp.com/attachments/924837858878034003/1014086132738306119/unknown.png)
 
 5. Click this button:  
