@@ -1,3 +1,4 @@
+import { ACCEPTED_COLOUR, REJECTED_COLOUR, UNBANNED_COLOUR } from "../helpers/colour-helpers.js";
 import { reply, editMessage, editOriginalMessage } from "../helpers/interaction-helpers.js";
 import { unbanUser } from "../helpers/user-helpers.js"
 
@@ -51,7 +52,7 @@ async function request(res, body, doUserCheck = true) {
         }
 
         message.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}> and user unbanned, currently in progress`;
-        message.embeds[0].color = 16705372;
+        message.embeds[0].color = UNBANNED_COLOUR;
         message.components[0].components = [
             {
                 type: 2,
@@ -70,7 +71,7 @@ async function request(res, body, doUserCheck = true) {
 }
 
 function getColour() {
-    return [16705373, 15548997];
+    return [ACCEPTED_COLOUR, REJECTED_COLOUR];
 }
 
 export { request, getColour };

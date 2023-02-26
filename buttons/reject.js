@@ -1,3 +1,4 @@
+import { REJECTED_COLOUR } from "../helpers/colour-helpers.js";
 import { editMessage } from "../helpers/interaction-helpers.js";
 
 async function request(res, body) {
@@ -5,7 +6,7 @@ async function request(res, body) {
     const userId = body.data.custom_id.split("_")[1]
 
     message.content = `Appeal from <@${userId}> (${userId}) rejected`;
-    message.embeds[0].color = 15548997;
+    message.embeds[0].color = REJECTED_COLOUR;
     if (!message.embeds[0].fields[4]) {
         message.embeds[0].fields[4] = {
             name: "Rejected by",

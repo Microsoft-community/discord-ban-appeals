@@ -1,3 +1,4 @@
+import { COMPLETED_COLOUR, UNBANNED_COLOUR } from "../helpers/colour-helpers.js";
 import { reply, editMessage, editOriginalMessage } from "../helpers/interaction-helpers.js";
 
 async function request(res, body, doUserCheck = true) {
@@ -22,10 +23,9 @@ async function request(res, body, doUserCheck = true) {
     } 
 
     message.content = `Appeal from <@${userId}> (${userId}) accepted, user has been notified`;
-    message.embeds[0].color = 3908957;
+    message.embeds[0].color = COMPLETED_COLOUR;
     message.components = [];
     if(doUserCheck) {
-        
         editMessage(res, message);
     } else {
         await editOriginalMessage(message);
@@ -33,7 +33,7 @@ async function request(res, body, doUserCheck = true) {
 }
 
 function getColour() {
-    return [16705372];
+    return [UNBANNED_COLOUR];
 }
 
 export { request, getColour };

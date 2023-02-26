@@ -1,3 +1,4 @@
+import { ACCEPTED_COLOUR, REJECTED_COLOUR } from "../helpers/colour-helpers.js";
 import { reply, editMessage, editOriginalMessage } from "../helpers/interaction-helpers.js";
 
 async function request(res, body, doUserCheck = true) {
@@ -23,15 +24,13 @@ async function request(res, body, doUserCheck = true) {
     }
 
     message.content = `Appeal from <@${userId}> (${userId}) accepted by <@${body.member.user.id}>, currently pending unban`;
-    message.embeds[0].color = 16705373;
-    message.components[0].components = [
-        {
-            type: 2,
-            custom_id: `unban_${userId}_${body.member.user.id}`,
-            style: 2,
-            label: "Unban user",
-        }
-    ];
+    message.embeds[0].color = ACCEPTED_COLOUR;
+    message.components[0].components = [{
+        type: 2,
+        custom_id: `unban_${userId}_${body.member.user.id}`,
+        style: 2,
+        label: "Unban user",
+    }];
     
 
     if(doUserCheck) {
@@ -42,7 +41,8 @@ async function request(res, body, doUserCheck = true) {
 }
 
 function getColour() {
-    return [15548997];
+    // 'no colour' not included since this is only called when confirming which will always be already rejected
+    return [REJECTED_COLOUR];
 }
 
 export { request, getColour };
