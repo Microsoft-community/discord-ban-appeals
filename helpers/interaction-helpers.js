@@ -1,5 +1,4 @@
 import nacl from "tweetnacl";
-import fetch from "node-fetch";
 import { API_ENDPOINT } from "../helpers/discord-helpers.js"
 
 function verifyRequest(req) {

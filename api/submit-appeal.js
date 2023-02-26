@@ -1,6 +1,3 @@
-"use strict";
-
-import fetch from "node-fetch";
 import { decodeJWT } from "../helpers/jwt-helpers.js";
 import { isBlocked, getBan, getCliptokBan } from "../helpers/user-helpers.js";
 import { API_ENDPOINT, MAX_EMBED_FIELD_CHARS, MAX_EMBED_FOOTER_CHARS } from "../helpers/discord-helpers.js";

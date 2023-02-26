@@ -8,11 +8,10 @@
     "vercel-build": "node ./build.js"
   },
   "dependencies": {
-    "jsonwebtoken": "^8.5.1",
-    "node-fetch": "^3.2.4",
+    "jsonwebtoken": "^9.0.0",
     "tweetnacl": "^1.0.3"
   },
   "engines": {
-    "node": "<=16.x"
+    "node": "<=18.x"
   }
 }

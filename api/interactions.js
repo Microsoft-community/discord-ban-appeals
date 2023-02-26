@@ -1,5 +1,3 @@
-"use strict";
-
 import { verifyRequest, reply } from "../helpers/interaction-helpers.js"
 
 export default async (req, res) => {

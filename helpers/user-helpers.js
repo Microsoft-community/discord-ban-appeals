@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import { API_ENDPOINT } from "./discord-helpers.js";
 
 async function getUserInfo(token) {
