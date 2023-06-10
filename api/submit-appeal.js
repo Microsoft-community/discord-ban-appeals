@@ -59,7 +59,7 @@ export default async (req, res) => {
                 fields: [
                     {
                         name: "Submitter",
-                        value: `<@${userInfo.id}> (${userInfo.username}#${userInfo.discriminator})`
+                        value: `<@${userInfo.id}> (${userInfo.username}${userInfo.discriminator !== "0" ? ("#" + userInfo.discriminator): ""})`
                     },
                     {
                         name: "Why were you banned?",
