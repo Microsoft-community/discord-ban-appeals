@@ -173,7 +173,7 @@
                 : `embed/avatars/${userInfo.discriminator % 5}.png`;
             document.getElementById("avatar").src = `https://cdn.discordapp.com/${avatar}?size=256`;
 
-            document.getElementById("username").textContent = `${userInfo.username}#${userInfo.discriminator}`;
+            document.getElementById("username").textContent = `${userInfo.username}${userInfo.discriminator !== "0" ? ("#" + userInfo.discriminator): ""}`;
 
             document.getElementById("token").value = jwt;
 

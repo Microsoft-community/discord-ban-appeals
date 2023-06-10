@@ -127,7 +127,7 @@ exports.handler = async function (event, context) {
                 fields: [
                     {
                         name: "Submitter",
-                        value: `<@${userInfo.id}> (${userInfo.username}#${userInfo.discriminator})`
+                        value: `<@${userInfo.id}> (${userInfo.username}${userInfo.discriminator !== "0" ? ("#" + userInfo.discriminator): ""})`
                     },
                     {
                         name: "Which timezone do you currently live in?",
