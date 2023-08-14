@@ -24,7 +24,7 @@ export default async (req, res) => {
         payload.token !== undefined) {
 
         const userInfo = decodeJWT(payload.token);
-        if (isBlocked(userInfo.id)) {
+        if (await isBlocked(userInfo.id)) {
             res.redirect(303, `/error.html?msg=${encodeURIComponent("Your ability to submit ban appeals has been revoked due to abuse or spam.")}`);
         }
         

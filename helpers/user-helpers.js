@@ -43,6 +43,29 @@ async function getCliptokBan(userid) {
     }
 }
 
+async function getCliptokBlock(userid) {
+    try {
+        const result = await fetch(`${process.env.CLIPTOK_API_ENDPOINT}/appealBlocks/${encodeURIComponent(userid)}`, {
+            method: "GET",
+            headers: {
+                "Authorization": process.env.CLIPTOK_API_TOKEN
+            }
+        });
+    
+        if (result.status === 200){
+            // redis-exposer returns 200 if it exists
+            return true;
+        } else {
+            // anything else, either fall through as allowed or it doesnt exist
+            return false;
+        }
+    
+    } catch {
+        return false;
+    }
+}
+
+
 async function getBan(userId) {
     const result = await callBanApi(userId, "GET");
 
@@ -65,12 +88,16 @@ async function unbanUser(userId, reason) {
     }
 }
 
-function isBlocked(userId) {
+async function isBlocked(userId) {
     if (process.env.BLOCKED_USERS) {
         const blockedUsers = process.env.BLOCKED_USERS.replace(/"/g, "").split(",").filter(Boolean);
         if (blockedUsers.indexOf(userId) > -1) {
             return true;
         }
+    }
+
+    if (process.env.CLIPTOK_API_TOKEN != null && process.env.CLIPTOK_API_ENDPOINT != null) {
+        return (await getCliptokBlock(userId));
     }
 
     return false;
