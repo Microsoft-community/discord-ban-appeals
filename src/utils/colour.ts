@@ -1,0 +1,13 @@
+const ACCEPTED_COLOUR = 0xfee75d;
+const REJECTED_COLOUR = 0xed4245;
+const UNBANNED_COLOUR = 0xfee75c;
+const COMPLETED_COLOUR = 0x3ba55d;
+
+type Colour =
+	| typeof ACCEPTED_COLOUR
+	| typeof REJECTED_COLOUR
+	| typeof UNBANNED_COLOUR
+	| typeof COMPLETED_COLOUR;
+
+export { ACCEPTED_COLOUR, REJECTED_COLOUR, UNBANNED_COLOUR, COMPLETED_COLOUR };
+export type { Colour };

@@ -1,17 +1,17 @@
 {
-  "name": "ban-appeals-vercel",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Vercelized Discord ban appeal form",
-  "license": "MIT",
-  "scripts": {
-    "vercel-build": "node ./build.js"
-  },
-  "dependencies": {
-    "jsonwebtoken": "^9.0.0",
-    "tweetnacl": "^1.0.3"
-  },
-  "engines": {
-    "node": "<=18.x"
-  }
+	"name": "discord-ban-appeals",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy --minify"
+	},
+	"dependencies": {
+		"discord-interactions": "^4.1.0",
+		"hono": "^4.6.13"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@cloudflare/workers-types": "^4.20241112.0",
+		"discord-api-types": "^0.37.111",
+		"wrangler": "^3.88.0"
+	}
 }
