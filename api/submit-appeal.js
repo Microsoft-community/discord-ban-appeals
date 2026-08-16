@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 
 const { API_ENDPOINT, MAX_EMBED_FIELD_CHARS, MAX_EMBED_FOOTER_CHARS } = require("./helpers/discord-helpers.js");
 const { createJwt, decodeJwt } = require("./helpers/jwt-helpers.js");
-const { getBan, isBlocked } = require("./helpers/user-helpers.js");
+const { getBan, isBlocked, isInServer } = require("./helpers/user-helpers.js");
 
 const timezones = {
     "gmt_minus12": "GMT -12:00",
@@ -116,6 +116,15 @@ exports.handler = async function (event, context) {
                 statusCode: 303,
                 headers: {
                     "Location": `/error.html?msg=${encodeURIComponent("You cannot submit mod applications with this Discord account.")}`,
+                },
+            };
+        }
+
+        if (!await isInServer(userInfo.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN)) {
+            return {
+                statusCode: 303,
+                headers: {
+                    "Location": `/error.html?msg=${encodeURIComponent("You must be a member of the Microsoft Community server to submit a mod application.")}`,
                 },
             };
         }
