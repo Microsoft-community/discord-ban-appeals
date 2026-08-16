@@ -62,4 +62,20 @@ function isBlocked(userId) {
     return false;
 }
 
-module.exports = { getUserInfo, getBan, unbanUser, isBlocked };
+async function isInServer(userId, guildId, botToken) {
+    const result = await fetch(`${API_ENDPOINT}/guilds/${encodeURIComponent(guildId)}/members/${encodeURIComponent(userId)}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bot ${botToken}`
+        }
+    });
+
+    if (result.status === 404) {
+        return false;
+    } else {
+        // fail open, allow application if the member is in the server or if discord blows up
+        return true;
+    }
+}
+
+module.exports = { getUserInfo, getBan, unbanUser, isBlocked, isInServer };

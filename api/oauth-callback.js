@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-const { getUserInfo, getBan, isBlocked } = require("./helpers/user-helpers.js");
+const { getUserInfo, getBan, isBlocked, isInServer } = require("./helpers/user-helpers.js");
 const { createJwt } = require("./helpers/jwt-helpers.js");
 
 exports.handler = async function (event, context) {
@@ -50,6 +50,15 @@ exports.handler = async function (event, context) {
                     }
                 };
             }
+        }
+
+        if (!await isInServer(user.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN)) {
+            return {
+                statusCode: 303,
+                headers: {
+                    "Location": `/error.html?msg=${encodeURIComponent("You must be a member of the Microsoft Community server to submit a mod application.")}`,
+                },
+            };
         }
 
         const userPublic = {
